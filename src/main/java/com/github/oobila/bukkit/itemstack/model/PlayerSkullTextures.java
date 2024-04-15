@@ -1,4 +1,4 @@
-package com.github.oobila.bukkit.itemstack.skull;
+package com.github.oobila.bukkit.itemstack.model;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -36,23 +36,22 @@ public class ItemStackUtil {
         }
     }
 
-    /**
-     * Adds metadata to an ItemStack to make it unstackable
-     * @param itemStack
-     */
-    public static void makeUnstackable(ItemStack itemStack){
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        PersistentMetaUtil.makeUnique(itemMeta);
-        itemStack.setItemMeta(itemMeta);
+    static void apply(ItemStack itemStack, ItemMetaConsumer consumer) {
+        ItemMeta meta = itemStack.getItemMeta();
+        consumer.consume(meta);
+        itemStack.setItemMeta(meta);
     }
 
-    /**
-     * Removes the metadata on an ItemStack that makes it unstackable
-     * @param itemStack
-     */
-    public static void makeStackable(ItemStack itemStack){
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        PersistentMetaUtil.makeNonUnique(itemMeta);
-        itemStack.setItemMeta(itemMeta);
+    static <T> T get(ItemStack itemStack, ItemMetaFunction<T> function) {
+        ItemMeta meta = itemStack.getItemMeta();
+        return function.apply(meta);
+    }
+
+    interface ItemMetaConsumer {
+        void consume(ItemMeta meta);
+    }
+
+    interface ItemMetaFunction<T> {
+        T apply(ItemMeta meta);
     }
 }

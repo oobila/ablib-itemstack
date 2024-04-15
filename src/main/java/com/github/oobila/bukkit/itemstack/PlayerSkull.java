@@ -1,4 +1,4 @@
-package com.github.oobila.bukkit.itemstack.skull;
+package com.github.oobila.bukkit.itemstack;
 
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;

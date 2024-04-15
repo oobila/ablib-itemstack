@@ -1,9 +1,8 @@
-package com.github.oobila.bukkit.itemstack.skull;
+package com.github.oobila.bukkit.itemstack;
 
-import com.github.oobila.bukkit.itemstack.CustomItemStack;
-import com.github.oobila.bukkit.itemstack.CustomItemStackBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
@@ -20,7 +19,7 @@ import static com.github.oobila.bukkit.common.ABCommon.log;
 /**
  * Non-player skull is a player head with a base64 texture string to give it a unique texture
  */
-public class NonPlayerSkull extends CustomItemStack {
+public class NonPlayerSkull extends ItemStack implements ItemStackProxyBase {
 
     private static final String URL_PREFIX = "http://textures.minecraft.net/texture/";
     private static final Pattern BASE64_PATTERN = Pattern.compile("\\\"http:\\/\\/textures\\.minecraft\\.net\\/texture\\/(.*)\\\"");
@@ -68,7 +67,12 @@ public class NonPlayerSkull extends CustomItemStack {
         }
     }
 
-    public static CustomItemStackBuilder builder(String textureId) {
-        return new CustomItemStackBuilder(new NonPlayerSkull(textureId));
+    @Override
+    public ItemStack getItemStack() {
+        return this;
+    }
+
+    public static ItemStackBuilder builder(String textureId) {
+        return new ItemStackBuilder(new NonPlayerSkull(textureId));
     }
 }

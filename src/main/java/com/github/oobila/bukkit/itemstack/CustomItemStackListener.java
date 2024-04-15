@@ -162,20 +162,20 @@ public class CustomItemStackListener implements Listener {
 
     private void handleItem(Event event, Player player, Location location, Block block, ItemStack item, ItemBehaviour itemBehaviour, ItemSlot itemSlot) {
         if (item != null && item.getItemMeta() != null) {
-            CustomItemStack customItemStack = new CustomItemStackBuilder(item).build();
+            ItemStackProxy proxy = new ItemStackProxy(item);
 
             //check to see if the itemStack applies
             if (
-                    customItemStack.getItemEffects().isEmpty() ||
-                            customItemStack.getBehaviour() == null ||
-                            !customItemStack.getBehaviour().equals(itemBehaviour) ||
-                            !customItemStack.getBehaviourSlot().equals(itemSlot)
+                    proxy.getItemEffects().isEmpty() ||
+                            proxy.getBehaviour() == null ||
+                            !proxy.getBehaviour().equals(itemBehaviour) ||
+                            !proxy.getBehaviourSlot().equals(itemSlot)
             ) {
                 return;
             }
 
             //play effects (if any)
-            Set<Effect<?>> effects = customItemStack.getItemEffects();
+            Set<Effect<?>> effects = proxy.getItemEffects();
             if (effects != null) {
                 for (Effect<?> effect : effects) {
                     try {
@@ -195,7 +195,7 @@ public class CustomItemStackListener implements Listener {
                     }
                 }
             }
-            itemSlot.updateItem(player, customItemStack);
+            itemSlot.updateItem(player, proxy.getItemStack());
         }
     }
 

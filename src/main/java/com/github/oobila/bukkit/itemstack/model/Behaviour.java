@@ -1,4 +1,4 @@
-package com.github.oobila.bukkit.itemstack;
+package com.github.oobila.bukkit.itemstack.model;
 
 public enum Behaviour {
 

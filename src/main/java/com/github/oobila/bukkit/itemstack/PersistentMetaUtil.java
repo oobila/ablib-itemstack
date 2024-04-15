@@ -13,20 +13,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static com.github.oobila.bukkit.itemstack.PluginUtil.getCorePlugin;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PersistentMetaUtil {
 
-    private static final String UNSTACKABLE_KEY = "unstackable";
     private static final String LIST_DELIMITER = "#|#";
 
     public static void remove(PersistentDataHolder data, NamespacedKey key){
         data.getPersistentDataContainer().remove(key);
-    }
-
-    public static void addString(PersistentDataHolder data, NamespacedKey key, String value){
-        data.getPersistentDataContainer().set(key, PersistentDataType.STRING, value);
     }
 
     public static boolean containsKey(PersistentDataHolder data, NamespacedKey key){
@@ -36,6 +29,10 @@ public class PersistentMetaUtil {
         return data.getPersistentDataContainer().has(key);
     }
 
+    public static void add(PersistentDataHolder data, NamespacedKey key, String value){
+        data.getPersistentDataContainer().set(key, PersistentDataType.STRING, value);
+    }
+
     public static String getString(PersistentDataHolder data, NamespacedKey key){
         if(data == null) {
             return null;
@@ -43,7 +40,7 @@ public class PersistentMetaUtil {
         return data.getPersistentDataContainer().get(key,PersistentDataType.STRING);
     }
 
-    public static void addInt(PersistentDataHolder data, NamespacedKey key, int value){
+    public static void add(PersistentDataHolder data, NamespacedKey key, int value){
         data.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, value);
     }
 
@@ -55,7 +52,7 @@ public class PersistentMetaUtil {
         return i == null ? 0 : i;
     }
 
-    public static void addDouble(PersistentDataHolder data, NamespacedKey key, double value){
+    public static void add(PersistentDataHolder data, NamespacedKey key, double value){
         data.getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, value);
     }
 
@@ -67,7 +64,7 @@ public class PersistentMetaUtil {
         return d == null ? 0 : d;
     }
 
-    public static void addLocalDateTime(PersistentDataHolder data, NamespacedKey key, LocalDateTime localDateTime){
+    public static void add(PersistentDataHolder data, NamespacedKey key, LocalDateTime localDateTime){
         data.getPersistentDataContainer().set(
                 key,
                 PersistentDataType.LONG,
@@ -85,7 +82,7 @@ public class PersistentMetaUtil {
                 LocalDateTime.ofEpochSecond(epochMillis, 0, ZoneOffset.UTC);
     }
 
-    public static void addUUID(PersistentDataHolder data, NamespacedKey key, UUID value){
+    public static void add(PersistentDataHolder data, NamespacedKey key, UUID value){
         data.getPersistentDataContainer().set(key, PersistentDataType.STRING, value.toString());
     }
 
@@ -111,13 +108,5 @@ public class PersistentMetaUtil {
         }
         String value = data.getPersistentDataContainer().get(key, PersistentDataType.STRING);
         return value == null ? null : Arrays.stream(value.split(LIST_DELIMITER)).toList();
-    }
-
-    public static void makeUnique(PersistentDataHolder data){
-        PersistentMetaUtil.addUUID(data, new NamespacedKey(getCorePlugin(), UNSTACKABLE_KEY), UUID.randomUUID());
-    }
-
-    public static void makeNonUnique(PersistentDataHolder data){
-        PersistentMetaUtil.remove(data, new NamespacedKey(getCorePlugin(), UNSTACKABLE_KEY));
     }
 }
