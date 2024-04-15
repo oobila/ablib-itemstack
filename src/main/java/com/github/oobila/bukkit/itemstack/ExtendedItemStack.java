@@ -1,5 +1,6 @@
 package com.github.oobila.bukkit.itemstack;
 
+import com.github.oobila.bukkit.chat.Message;
 import com.github.oobila.bukkit.effects.Attribute;
 import com.github.oobila.bukkit.effects.Effect;
 import com.github.oobila.bukkit.itemstack.effects.ItemBehaviour;
@@ -10,19 +11,29 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public interface ExtendedItemStack {
+public interface ExtendedItemStack<T> {
 
-    void setDisplayName(String displayName);
+    T setDisplayName(String displayName);
 
-    void addMeta(String name, String value);
+    String getDisplayName();
 
-    void addMeta(String name, UUID value);
+    T setCount(int count);
 
-    void addMeta(String name, int value);
+    int getCount();
 
-    void addMeta(String name, double value);
+    T setDamage(int damage);
 
-    void addMeta(String name, LocalDateTime value);
+    int getDamage();
+
+    T addMeta(String name, String value);
+
+    T addMeta(String name, UUID value);
+
+    T addMeta(String name, int value);
+
+    T addMeta(String name, double value);
+
+    T addMeta(String name, LocalDateTime value);
 
     String getMetaString(String name);
 
@@ -38,23 +49,27 @@ public interface ExtendedItemStack {
 
     void makeStackable();
 
-    void makeUnstackable();
+    T makeUnstackable();
 
-    <T> void addItemEffect(Effect<T> effect);
+    <S> T addItemEffect(Effect<S> effect);
 
-    Set<Effect<?>> getItemEffects();
+    <S> Set<Effect<S>> getItemEffects();
 
-    void addAttribute(Attribute attribute);
+    T addAttribute(Attribute attribute);
 
     Set<Attribute> getAttributes();
 
-    void setBehaviour(ItemBehaviour itemBehaviour, ItemSlot itemSlot);
+    T setBehaviour(ItemBehaviour itemBehaviour, ItemSlot itemSlot);
 
     ItemBehaviour getBehaviour();
 
     ItemSlot getBehaviourSlot();
 
-    void setLore(List<String> lore);
+    T setLore(List<String> lore);
+
+    T addLore(String lore);
+
+    T addLore(Message lore);
 
     List<String> getLore();
 

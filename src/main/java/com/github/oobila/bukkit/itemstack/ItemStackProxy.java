@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 @RequiredArgsConstructor
 @Getter
-public class ItemStackProxy implements ItemStackProxyBase {
+public class ItemStackProxy implements IItemStackProxy {
 
     private final ItemStack itemStack;
 

@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Utility class to help with common functions for Minecraft ItemStacks
@@ -34,24 +33,5 @@ public class ItemStackUtil {
         for(ItemStack itemStack : itemStacks){
             givePlayer(player, itemStack);
         }
-    }
-
-    static void apply(ItemStack itemStack, ItemMetaConsumer consumer) {
-        ItemMeta meta = itemStack.getItemMeta();
-        consumer.consume(meta);
-        itemStack.setItemMeta(meta);
-    }
-
-    static <T> T get(ItemStack itemStack, ItemMetaFunction<T> function) {
-        ItemMeta meta = itemStack.getItemMeta();
-        return function.apply(meta);
-    }
-
-    interface ItemMetaConsumer {
-        void consume(ItemMeta meta);
-    }
-
-    interface ItemMetaFunction<T> {
-        T apply(ItemMeta meta);
     }
 }

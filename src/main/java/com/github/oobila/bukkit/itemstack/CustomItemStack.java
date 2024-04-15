@@ -3,7 +3,7 @@ package com.github.oobila.bukkit.itemstack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class CustomItemStack extends ItemStack implements ItemStackProxyBase {
+public class CustomItemStack extends ItemStack implements IItemStackProxy {
 
     public CustomItemStack(Material material){
         super(material);

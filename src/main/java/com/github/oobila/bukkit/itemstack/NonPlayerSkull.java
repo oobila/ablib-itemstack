@@ -19,7 +19,7 @@ import static com.github.oobila.bukkit.common.ABCommon.log;
 /**
  * Non-player skull is a player head with a base64 texture string to give it a unique texture
  */
-public class NonPlayerSkull extends ItemStack implements ItemStackProxyBase {
+public class NonPlayerSkull extends ItemStack implements IItemStackProxy {
 
     private static final String URL_PREFIX = "http://textures.minecraft.net/texture/";
     private static final Pattern BASE64_PATTERN = Pattern.compile("\\\"http:\\/\\/textures\\.minecraft\\.net\\/texture\\/(.*)\\\"");
@@ -37,6 +37,11 @@ public class NonPlayerSkull extends ItemStack implements ItemStackProxyBase {
         } catch (Exception e) {
             log(Level.WARNING, "Could not create custom skull");
         }
+    }
+
+    @Override
+    public ItemStack getItemStack() {
+        return this;
     }
 
     public static void setTexture(SkullMeta meta, URL skinUrl) {
@@ -65,11 +70,6 @@ public class NonPlayerSkull extends ItemStack implements ItemStackProxyBase {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public ItemStack getItemStack() {
-        return this;
     }
 
     public static ItemStackBuilder builder(String textureId) {
