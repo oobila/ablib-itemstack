@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public interface ExtendedItemStack<T> {
+public interface ExtendedItemStack<T extends ExtendedItemStack<T>> {
 
     T setDisplayName(String displayName);
 
@@ -51,9 +51,10 @@ public interface ExtendedItemStack<T> {
 
     T makeUnstackable();
 
-    <S> T addItemEffect(Effect<S> effect);
+    T addItemEffect(Effect<?> effect);
 
-    <S> Set<Effect<S>> getItemEffects();
+    @SuppressWarnings("java:S1452")
+    Set<Effect<?>> getItemEffects();
 
     T addAttribute(Attribute attribute);
 

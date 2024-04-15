@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static com.github.oobila.bukkit.common.ABCommon.key;
 import static com.github.oobila.bukkit.common.ABCommon.log;
 
-public interface IItemStackBuilder extends ExtendedItemStack<IItemStackBuilder> {
+public interface IItemStackBuilder<T extends ExtendedItemStack<T>> extends ExtendedItemStack<T> {
 
     String UNSTACKABLE_KEY = "unstackable";
     String ITEM_EFFECTS_TAG = "itemEffects";
@@ -33,70 +33,71 @@ public interface IItemStackBuilder extends ExtendedItemStack<IItemStackBuilder> 
     String CUSTOM_LORE_SECTION_DELIM_REPLACEMENT = "/ /";
 
     ItemStack getItemStack();
+    T getReturnObject();
 
     @Override
-    default IItemStackBuilder setDisplayName(String displayName) {
+    default T setDisplayName(String displayName) {
         apply(meta -> meta.setDisplayName(displayName));
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder setCount(int count) {
+    default T setCount(int count) {
         getItemStack().setAmount(count);
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder setDamage(int damage) {
+    default T setDamage(int damage) {
         apply(meta -> {
             if (meta instanceof Damageable damageable) {
                 damageable.setDamage(damage);
             }
         });
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder addMeta(String name, String value) {
+    default T addMeta(String name, String value) {
         apply(meta -> PersistentMetaUtil.add(meta, key(name), value));
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder addMeta(String name, UUID value) {
+    default T addMeta(String name, UUID value) {
         apply(meta -> PersistentMetaUtil.add(meta, key(name), value));
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder addMeta(String name, int value) {
+    default T addMeta(String name, int value) {
         apply(meta -> PersistentMetaUtil.add(meta, key(name), value));
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder addMeta(String name, double value) {
+    default T addMeta(String name, double value) {
         apply(meta -> PersistentMetaUtil.add(meta, key(name), value));
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder addMeta(String name, LocalDateTime value) {
+    default T addMeta(String name, LocalDateTime value) {
         apply(meta -> PersistentMetaUtil.add(meta, key(name), value));
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder makeUnstackable() {
+    default T makeUnstackable() {
         apply(meta -> PersistentMetaUtil.remove(meta, key(UNSTACKABLE_KEY)));
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default <S> IItemStackBuilder addItemEffect(Effect<S> effect) {
+    default T addItemEffect(Effect<?> effect) {
         if (AttributeManager.effectOf(effect.getName()) == null) {
             log(Level.WARNING, "Effect \"{0}\" has not been registered!", effect.getName());
-            return this;
+            return getReturnObject();
         }
         Set<Effect<?>> effects = new HashSet<>(getItemEffects());
         effects.add(effect);
@@ -105,15 +106,15 @@ public interface IItemStackBuilder extends ExtendedItemStack<IItemStackBuilder> 
                 .collect(Collectors.joining("|"));
         removeMeta(ITEM_EFFECTS_TAG);
         addMeta(ITEM_EFFECTS_TAG, effectString);
-        updateLore(this);
-        return this;
+        updateLore();
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder addAttribute(Attribute attribute) {
+    default T addAttribute(Attribute attribute) {
         if (AttributeManager.attributeOf(attribute.getName()) == null) {
             log(Level.WARNING, "Attribute \"{0}\" has not been registered!", attribute.getName());
-            return this;
+            return getReturnObject();
         }
         Set<Attribute> attributes = new HashSet<>(getAttributes());
         attributes.add(attribute);
@@ -122,21 +123,21 @@ public interface IItemStackBuilder extends ExtendedItemStack<IItemStackBuilder> 
                 .collect(Collectors.joining("|"));
         removeMeta(ITEM_ATTRIBUTES_TAG);
         addMeta(ITEM_ATTRIBUTES_TAG, attributeString);
-        updateLore(this);
-        return this;
+        updateLore();
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder setBehaviour(ItemBehaviour itemBehaviour, ItemSlot itemSlot) {
+    default T setBehaviour(ItemBehaviour itemBehaviour, ItemSlot itemSlot) {
         removeMeta(ITEM_BEHAVIOUR_TAG);
         addMeta(ITEM_BEHAVIOUR_TAG, itemBehaviour.toString());
         removeMeta(ITEM_BEHAVIOUR_SLOT_TAG);
         addMeta(ITEM_BEHAVIOUR_SLOT_TAG, itemSlot.toString());
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder setLore(List<String> lore) {
+    default T setLore(List<String> lore) {
         removeMeta("lore");
         if (!lore.isEmpty()) {
             addMeta("lore", lore.stream()
@@ -144,20 +145,20 @@ public interface IItemStackBuilder extends ExtendedItemStack<IItemStackBuilder> 
                     .collect(Collectors.joining(CUSTOM_LORE_SECTION_DELIM))
             );
         }
-        updateLore(this);
-        return this;
+        updateLore();
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder addLore(String lore) {
+    default T addLore(String lore) {
         List<String> itemLore = getLore();
         itemLore.add(lore);
         setLore(itemLore);
-        return this;
+        return getReturnObject();
     }
 
     @Override
-    default IItemStackBuilder addLore(Message lore) {
+    default T addLore(Message lore) {
         return addLore(lore.toString());
     }
 
@@ -165,17 +166,17 @@ public interface IItemStackBuilder extends ExtendedItemStack<IItemStackBuilder> 
         return getItemStack();
     }
 
-    default void updateLore(IItemStackBuilder proxy) {
-        List<String> currentLore = proxy.getLore();
+    default void updateLore() {
+        List<String> currentLore = getLore();
         if (currentLore == null) {
             currentLore = new ArrayList<>();
         }
         final List<String> lore = currentLore;
 
-        proxy.getItemEffects().stream()
+        getItemEffects().stream()
                 .filter(effect -> effect.getDisplayName() != null && !effect.getDisplayName().isEmpty())
                 .forEach(effect -> lore.add(effect.getDisplayName()));
-        proxy.getAttributes().stream()
+        getAttributes().stream()
                 .filter(attribute -> attribute.getDisplayName() != null && !attribute.getDisplayName().isEmpty())
                 .forEach(attribute -> lore.add(attribute.getDisplayName()));
 

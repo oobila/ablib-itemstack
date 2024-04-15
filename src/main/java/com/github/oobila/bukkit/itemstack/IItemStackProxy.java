@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 import static com.github.oobila.bukkit.common.ABCommon.key;
 
-public interface IItemStackProxy extends IItemStackBuilder {
+public interface IItemStackProxy<T extends ExtendedItemStack<T>> extends IItemStackBuilder<T> {
 
     @Override
     default String getDisplayName() {
@@ -120,7 +120,7 @@ public interface IItemStackProxy extends IItemStackBuilder {
         return Arrays.stream(loreString.split(CUSTOM_LORE_SECTION_DELIM)).toList();
     }
 
-    default <T> T get(ItemMetaFunction<T> function) {
+    default <S> S get(ItemMetaFunction<S> function) {
         ItemMeta meta = getItemStack().getItemMeta();
         return function.apply(meta);
     }

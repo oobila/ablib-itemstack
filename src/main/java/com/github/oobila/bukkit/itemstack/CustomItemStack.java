@@ -3,7 +3,7 @@ package com.github.oobila.bukkit.itemstack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class CustomItemStack extends ItemStack implements IItemStackProxy {
+public class CustomItemStack extends ItemStack implements IItemStackProxy<CustomItemStack> {
 
     public CustomItemStack(Material material){
         super(material);
@@ -30,6 +30,11 @@ public class CustomItemStack extends ItemStack implements IItemStackProxy {
 
     @Override
     public ItemStack getItemStack() {
+        return this;
+    }
+
+    @Override
+    public CustomItemStack getReturnObject() {
         return this;
     }
 
