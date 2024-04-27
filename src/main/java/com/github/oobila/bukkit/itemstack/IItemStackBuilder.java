@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static com.github.oobila.bukkit.common.ABCommon.key;
 import static com.github.oobila.bukkit.common.ABCommon.log;
 
-public interface IItemStackBuilder<T extends ExtendedItemStack<T>> extends ExtendedItemStack<T> {
+public interface IItemStackBuilder<T extends ExtendedItemStack<T>> extends ExtendedItemStack<T>, ItemStackProvider {
 
     String UNSTACKABLE_KEY = "unstackable";
     String ITEM_EFFECTS_TAG = "itemEffects";
@@ -32,7 +32,6 @@ public interface IItemStackBuilder<T extends ExtendedItemStack<T>> extends Exten
     String CUSTOM_LORE_SECTION_DELIM = "//";
     String CUSTOM_LORE_SECTION_DELIM_REPLACEMENT = "/ /";
 
-    ItemStack getItemStack();
     T getReturnObject();
 
     @Override
