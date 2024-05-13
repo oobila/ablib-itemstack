@@ -25,10 +25,10 @@ import static com.github.oobila.bukkit.common.ABCommon.log;
 public interface IItemStackBuilder<T extends ExtendedItemStack<T>> extends ExtendedItemStack<T>, ItemStackProvider {
 
     String UNSTACKABLE_KEY = "unstackable";
-    String ITEM_EFFECTS_TAG = "itemEffects";
-    String ITEM_ATTRIBUTES_TAG = "itemAttributes";
-    String ITEM_BEHAVIOUR_TAG = "itemBehaviour";
-    String ITEM_BEHAVIOUR_SLOT_TAG = "itemBehaviourSlot";
+    String ITEM_EFFECTS_TAG = "item-effects";
+    String ITEM_ATTRIBUTES_TAG = "item-attributes";
+    String ITEM_BEHAVIOUR_TAG = "item-behaviour";
+    String ITEM_BEHAVIOUR_SLOT_TAG = "item-behaviour-slot";
     String CUSTOM_LORE_SECTION_DELIM = "//";
     String CUSTOM_LORE_SECTION_DELIM_REPLACEMENT = "/ /";
 
