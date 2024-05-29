@@ -150,7 +150,7 @@ public interface IItemStackBuilder<T extends ExtendedItemStack<T>> extends Exten
 
     @Override
     default T addLore(String lore) {
-        List<String> itemLore = getLore();
+        List<String> itemLore = new ArrayList<>(getLore());
         itemLore.add(lore);
         setLore(itemLore);
         return getReturnObject();

@@ -9,9 +9,7 @@ import org.bukkit.profile.PlayerTextures;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,11 +75,6 @@ public class NonPlayerSkull extends ItemStack implements IItemStackProxy<NonPlay
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public List<String> getLore() {
-        return new ArrayList<>(IItemStackProxy.super.getLore());
     }
 
     public static ItemStackBuilder builder(String textureId) {
