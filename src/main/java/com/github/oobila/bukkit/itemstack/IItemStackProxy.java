@@ -128,5 +128,4 @@ public interface IItemStackProxy<T extends ExtendedItemStack<T>> extends IItemSt
     interface ItemMetaFunction<T> {
         T apply(ItemMeta meta);
     }
-
 }
