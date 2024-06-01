@@ -46,4 +46,12 @@ public class ItemStackProxy implements IItemStackProxy<ItemStackProxy> {
     public ItemStackProxy lore(String message, String... args) {
         return this.addLore(message(message, args));
     }
+
+    public ItemStackProxy lore(String message, Object... args) {
+        String[] strings = new String[args.length];
+        for (int i = 0; i < args.length; i++) {
+            strings[i] = args[i].toString();
+        }
+        return this.addLore(message(message, strings));
+    }
 }
