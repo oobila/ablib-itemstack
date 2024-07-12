@@ -72,6 +72,8 @@ public interface ExtendedItemStack<T extends ExtendedItemStack<T>> {
 
     T addLore(Message lore);
 
+    T setEnchanted();
+
     List<String> getLore();
 
 }
