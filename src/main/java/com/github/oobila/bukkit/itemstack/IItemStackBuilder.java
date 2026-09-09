@@ -165,7 +165,7 @@ public interface IItemStackBuilder<T extends ExtendedItemStack<T>> extends Exten
 
     @Override
     default T setEnchanted() {
-        getItemStack().addUnsafeEnchantment(Enchantment.LUCK, 1);
+        getItemStack().addUnsafeEnchantment(Enchantment.INFINITY, 1);
         apply(meta -> meta.addItemFlags(ItemFlag.HIDE_ENCHANTS));
         return getReturnObject();
     }
